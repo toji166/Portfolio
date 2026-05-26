@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adhi Narayan – Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* Navigation with morphing effect */
+        nav {
+            position: relative;
+            display: flex;
+            gap: 20px;
+            margin: 30px 30px 0 auto;
+            width: fit-content;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        nav a:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        nav a:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hero section with text reveal */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShine 3s ease-in-out infinite;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        @keyframes textShine {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(45deg); }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                transform: translateY(30px);
+            }
+        }
+
+        /* Unique card design with 3D tilt */
+        .section {
+            min-height: 100vh;
+            padding: 100px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff006e, #3a86ff);
+            animation: lineGrow 2s ease forwards;
+        }
+
+        @keyframes lineGrow {
+            to { width: 100%; }
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-20px) rotateX(5deg);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+                        0 0 40px rgba(131, 56, 236, 0.3);
+            border-color: rgba(131, 56, 236, 0.5);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #8338ec;
+        }
+
+        .card p {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Skill bars with liquid effect */
+        .skills {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .skill {
+            margin-bottom: 30px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
+            border-radius: 50px;
+            position: relative;
+            animation: fillBar 2s ease-out forwards;
+            width: 0;
+        }
+
+        @keyframes fillBar {
+            to { width: var(--width); }
+        }
+
+        .skill-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .scroll-indicator:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        .scroll-indicator.at-bottom {
+            background: rgba(255, 0, 110, 0.1);
+        }
+
+        .scroll-indicator.at-bottom::before {
+            border-top: none;
+            border-bottom: 12px solid rgba(255, 0, 110, 0.8);
+        }
+
+        .scroll-indicator.at-bottom:hover {
+            background: rgba(255, 0, 110, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .section h2 { font-size: 2rem; }
+            nav { flex-direction: column; margin: 20px auto; }
+        }
+
+        /* Fun Facts Display */
+        #fact-display {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, text-shadow 0.5s ease-in-out, border-color 0.3s ease;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            border-left: 5px solid #8338ec;
+            padding-left: 15px;
+            color: #fff;
+        }
+
+        #fact-display.show {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            border-color: #ff006e;
+            animation: bounce 0.6s;
+        }
+
+        /* Fact Button */
+        #fact-btn {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #fact-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        #fact-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        #fact-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(131, 56, 236, 0.5);
+        }
+
+        #fact-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Fun Facts Section Spacing and Animations */
+        #funfacts {
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #funfacts:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        #funfacts h2 {
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: slideIn 1s ease-out;
+        }
+
+        #funfacts p:first-of-type {
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        #funfacts:hover p:first-of-type {
+            color: #ccc;
+        }
+
+        #fact-btn {
+            margin-bottom: 20px;
+            animation: fadeInUp 1.2s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        #fact-display.show {
+            animation: bounce 0.6s;
+        }
+
+        
+        
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <nav>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#work">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section class="hero">
+        
+        <h1>Adhi Narayan</h1>
+        <p>Software Engineer · Cyber Security · AI & ML</p>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <section class="section" id="about">
+        <h2>About Me</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Background</h3>
+                <p>Second-year Computer Science student at Agni College of Technology (B.E, 2024–2028) with hands-on internship experience in Cyber Security and AI & ML.</p>
+            </div>
+            <div class="card">
+                <h3>What I Build</h3>
+                <p>From NLP classifiers and ML models to encryption tools and web interfaces — I enjoy turning real-world problems into working solutions using Python, Java, C, HTML and CSS.</p>
+            </div>
+            <div class="card">
+                <h3>Goal</h3>
+                <p>Looking to bring a practical, problem-solving mindset to an entry-level software role where I can keep growing and contribute meaningfully from day one.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="experience">
+        <h2>Experience</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Prodigy Infotech</h3>
+                <p style="color:#8338ec; margin-bottom:12px; font-size:0.9rem; font-weight:600;">Cyber Security Internship · Dec 2025</p>
+                <p>Implemented Python-based security tools covering classical cryptography, image encryption, password analysis, and keylogging — applying core cyber security concepts through hands-on assignments.</p>
+            </div>
+            <div class="card">
+                <h3>RISE – Tamilan Skills</h3>
+                <p style="color:#8338ec; margin-bottom:12px; font-size:0.9rem; font-weight:600;">AI & ML Internship · Dec 2025</p>
+                <p>Developed multiple machine learning models using Python and Jupyter Notebook, covering NLP, classification, and predictive analytics across real-world datasets.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="work">
+        <h2>Projects</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Fake News Detection</h3>
+                <p style="color:#3a86ff; font-size:0.8rem; margin-bottom:10px;">RISE – AI & ML · Python · Jupyter Notebook</p>
+                <p>NLP-based classifier to detect misinformation in news articles using machine learning techniques on real-world datasets.</p>
+            </div>
+            <div class="card">
+                <h3>Emotion Detection from Text</h3>
+                <p style="color:#3a86ff; font-size:0.8rem; margin-bottom:10px;">RISE – AI & ML · Python · Jupyter Notebook</p>
+                <p>Sentiment and emotion analysis model trained on text data to classify human emotions into meaningful categories.</p>
+            </div>
+            <div class="card">
+                <h3>Stock Price Prediction</h3>
+                <p style="color:#3a86ff; font-size:0.8rem; margin-bottom:10px;">RISE – AI & ML · Python · Jupyter Notebook</p>
+                <p>Predictive ML model using historical market data to forecast stock price trends with regression techniques.</p>
+            </div>
+            <div class="card">
+                <h3>Caesar Cipher Tool</h3>
+                <p style="color:#ff006e; font-size:0.8rem; margin-bottom:10px;">Prodigy Infotech – Cyber Security · Python</p>
+                <p>Text encryption and decryption using the Caesar cipher algorithm, demonstrating classical cryptography concepts.</p>
+            </div>
+            <div class="card">
+                <h3>Image Encryption & Decryption</h3>
+                <p style="color:#ff006e; font-size:0.8rem; margin-bottom:10px;">Prodigy Infotech – Cyber Security · Python · PIL</p>
+                <p>Pixel-level image encryption and decryption tool built using Python's PIL library to secure image data.</p>
+            </div>
+            <div class="card">
+                <h3>Password Complexity Checker</h3>
+                <p style="color:#ff006e; font-size:0.8rem; margin-bottom:10px;">Prodigy Infotech – Cyber Security · Python · re</p>
+                <p>Regex-based tool to evaluate password strength against security criteria, helping users create safer passwords.</p>
+            </div>
+            <div class="card">
+                <h3>Keylogger</h3>
+                <p style="color:#ff006e; font-size:0.8rem; margin-bottom:10px;">Prodigy Infotech – Cyber Security · Python · pynput</p>
+                <p>Keyboard event capture tool built with pynput to understand input monitoring techniques and security vulnerabilities.</p>
+            </div>
+            <div class="card">
+                <h3>My Portfolio</h3>
+                <p style="color:#06ffa5; font-size:0.8rem; margin-bottom:10px;">Personal · HTML · CSS</p>
+                <p>This portfolio website — built from scratch using HTML and CSS to showcase my work, skills and experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="skills">
+        <h2>Skills</h2>
+        <div class="skills">
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Python</span>
+                    <span>30%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-fill" style="--width: 30%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Frontend – HTML & CSS</span>
+                    <span>45%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-fill" style="--width: 45%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Java</span>
+                    <span>35%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-fill" style="--width: 35%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>C</span>
+                    <span>30%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-fill" style="--width: 30%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Machine Learning</span>
+                    <span>25%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-fill" style="--width: 25%"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Cyber Security Concepts</span>
+                    <span>25%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-fill" style="--width: 25%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <h2>Contact</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>📞 Phone</h3>
+                <p>+91 73056 56082</p>
+            </div>
+            <div class="card">
+                <h3>✉️ Email</h3>
+                <p>adhinarayan037@gmail.com</p>
+            </div>
+            <div class="card">
+                <h3>📍 Location</h3>
+                <p>Chennai, India – 600029</p>
+            </div>
+            <div class="card">
+                <h3>💼 LinkedIn</h3>
+                <p><a href="https://www.linkedin.com/in/adhi-narayan-44a8" target="_blank" style="color:#8338ec;">linkedin.com/in/adhi-narayan-44a8</a></p>
+            </div>
+            <div class="card">
+                <h3>🐙 GitHub</h3>
+                <p><a href="https://github.com/toji166" target="_blank" style="color:#8338ec;">github.com/toji166</a></p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Generate floating particles
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(particle);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Card 3D tilt effect
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `translateY(-20px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // Form submission
+        // Removed contact form
+
+        // Contact links handled natively
+
+        // Scroll indicator functionality
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        let scrollInterval;
+
+        function updateScrollIndicator() {
+            const atBottom = window.scrollY + window.innerHeight >= document.body.scrollHeight - 10;
+            if (atBottom) {
+                scrollIndicator.classList.add('at-bottom');
+            } else {
+                scrollIndicator.classList.remove('at-bottom');
+            }
+        }
+
+        function startScrolling() {
+            if (!scrollIndicator.classList.contains('at-bottom')) {
+                scrollInterval = setInterval(() => {
+                    window.scrollBy(0, 20); // scroll down by 20px each time
+                    updateScrollIndicator();
+                    if (scrollIndicator.classList.contains('at-bottom')) {
+                        stopScrolling();
+                    }
+                }, 16); // ~60fps
+            }
+        }
+
+        function stopScrolling() {
+            clearInterval(scrollInterval);
+        }
+
+        window.addEventListener('scroll', updateScrollIndicator);
+
+        scrollIndicator.addEventListener('mousedown', startScrolling);
+        scrollIndicator.addEventListener('mouseup', stopScrolling);
+        scrollIndicator.addEventListener('mouseleave', stopScrolling);
+
+        // Touch support for mobile
+        scrollIndicator.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            startScrolling();
+        });
+        scrollIndicator.addEventListener('touchend', stopScrolling); // in case mouse leaves
+
+        scrollIndicator.addEventListener('click', () => {
+            if (scrollIndicator.classList.contains('at-bottom')) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                updateScrollIndicator();
+            }
+        });
+    </script>
+</body>
+</html>
